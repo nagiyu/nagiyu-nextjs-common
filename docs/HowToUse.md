@@ -18,6 +18,40 @@ npx create-next-app@latest
 
 ## プロジェクトの設定
 
+### tsconfig.json
+
+```json
+{
+  "compilerOptions": {
+    // ...
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@common/*": [
+        "../typescript-common/*"
+      ],
+      "@client-common/*": [
+        "../nextjs-common/common/*"
+      ]
+    }
+  },
+  // ...
+}
+```
+
+### next.config.ts
+
+```typescript
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'standalone',
+};
+
+export default nextConfig;
+```
+
 ## VSCode の設定
 
 ### ワークスペース

@@ -25,6 +25,12 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@common/*": [
+        "../typescript-common/*"
+      ],
+      "@client-common/*": [
+        "../common/*"
       ]
     }
   },

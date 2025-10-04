@@ -1,36 +1,11 @@
-# 使い方
-
-## プロジェクトの作成
-
-```bash
-npx create-next-app@latest
-```
-
-各種オプションは下記の通り。
-
-- TypeScript: Yes
-- Linter: ESLint
-- Tailwind CSS: No
-- `src/` directory: No
-- App Router: Yes
-- Turbopack: No
-- Customize the import alias: No
-
-## プロジェクトの設定
-
-## VSCode の設定
-
-### ワークスペース
-
-```json
 {
   "folders": [
     {
       "path": ".",
-      "name": "xxx"
+      "name": "sample"
     },
     {
-      "path": "../nextjs-common/common",
+      "path": "../common",
       "name": "client-common"
     },
     {
@@ -64,6 +39,3 @@ npx create-next-app@latest
     }
   }
 }
-```
-
-### DevContainer

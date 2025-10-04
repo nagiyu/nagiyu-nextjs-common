@@ -11,6 +11,10 @@
     {
       "path": "../typescript-common",
       "name": "common"
+    },
+    {
+      "path": "../docs",
+      "name": "docs"
     }
   ],
   "settings": {

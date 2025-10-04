@@ -36,6 +36,10 @@ npx create-next-app@latest
     {
       "path": "../typescript-common",
       "name": "common"
+    },
+    {
+      "path": "../docs",
+      "name": "docs"
     }
   ],
   "settings": {
@@ -67,3 +71,38 @@ npx create-next-app@latest
 ```
 
 ### DevContainer
+
+```json
+{
+  "name": "xxx",
+  "image": "node:20",
+  "remoteUser": "node",
+  "containerEnv": {
+    "PROCESS_ENV": "local",
+    "PROJECT_SECRET": "DevXxx",
+    "PROJECT_AWS_ACCESS_KEY": "",
+    "PROJECT_AWS_SECRET_ACCESS_KEY": "",
+    "PROJECT_AWS_REGION": "",
+    "NEXTAUTH_URL": "http://localhost:3000"
+  },
+  "workspaceFolder": "/workspaces/xxx/xxx/xxx.code-workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "github.copilot",
+        "GitHub.copilot-chat",
+        "saoudrizwan.claude-dev",
+        "oderwat.indent-rainbow",
+        "wmaurer.change-case",
+        "humao.rest-client",
+        "bierner.markdown-mermaid",
+        "wayou.vscode-todo-highlight",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  }
+}
+```

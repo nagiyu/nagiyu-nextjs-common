@@ -70,7 +70,7 @@ jobs:
       - name: Install dependencies and build sample
         env:
           PROCESS_ENV: development
-          PROJECT_SECRET: DevSample
+          PROJECT_SECRET: DevNextjsCommonSample
           PROJECT_AWS_ACCESS_KEY: ${{ env.PROJECT_AWS_ACCESS_KEY }}
           PROJECT_AWS_SECRET_ACCESS_KEY: ${{ env.PROJECT_AWS_SECRET_ACCESS_KEY }}
           PROJECT_AWS_REGION: ${{ env.PROJECT_AWS_REGION }}

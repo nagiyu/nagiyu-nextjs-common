@@ -16,15 +16,15 @@ type CandleStickProps = {
 function getOption(data: CandleStickData[], isMobile: boolean, scrollable: boolean) {
     // Calculate minimum width per candle to maintain readability
     const minCandleWidth = isMobile ? 20 : 30;
-    const chartWidth = scrollable ? data.length * minCandleWidth : Math.max(data.length * minCandleWidth, 600);
+    const chartWidth = scrollable ? data.length * minCandleWidth : undefined;
 
     return {
         grid: {
             left: isMobile ? '15%' : '10%',
             right: isMobile ? '15%' : '10%',
-            bottom: isMobile ? '25%' : '20%',
+            bottom: isMobile ? '15%' : '10%',
             top: '10%',
-            width: scrollable ? chartWidth : undefined
+            width: chartWidth
         },
         xAxis: {
             data: data.map(item => item.date),
@@ -45,23 +45,6 @@ function getOption(data: CandleStickData[], isMobile: boolean, scrollable: boole
                 type: 'candlestick',
                 data: data.map(item => item.data),
                 barWidth: isMobile ? 10 : 15
-            }
-        ],
-        dataZoom: scrollable ? undefined : [
-            {
-                type: 'inside',
-                start: 0,
-                end: 100,
-                zoomOnMouseWheel: true,
-                moveOnMouseMove: true,
-                moveOnMouseWheel: true
-            },
-            {
-                type: 'slider',
-                start: 0,
-                end: 100,
-                height: 20,
-                bottom: isMobile ? '2%' : '5%'
             }
         ],
         tooltip: {
@@ -87,15 +70,34 @@ export default function CandleStick({ data, scrollable = false, className = '' }
         return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
+    const minCandleWidth = isMobile ? 20 : 30;
+    const chartWidth = scrollable ? data.length * minCandleWidth : undefined;
+
     if (scrollable) {
         return (
-            <div className={className} style={{ overflowX: 'auto', width: '100%' }}>
-                <ReactECharts option={getOption(data, isMobile, scrollable)} />
+            <div 
+                className={className} 
+                style={{ 
+                    overflowX: 'auto', 
+                    overflowY: 'hidden',
+                    width: '100%',
+                    WebkitOverflowScrolling: 'touch'
+                }}
+            >
+                <div style={{ width: chartWidth ? `${chartWidth}px` : '100%', minWidth: '100%' }}>
+                    <ReactECharts 
+                        option={getOption(data, isMobile, scrollable)}
+                        style={{ height: '400px', width: '100%' }}
+                    />
+                </div>
             </div>
         );
     }
 
     return (
-        <ReactECharts option={getOption(data, isMobile, scrollable)} />
+        <ReactECharts 
+            option={getOption(data, isMobile, scrollable)}
+            style={{ height: '400px', width: '100%' }}
+        />
     );
 }

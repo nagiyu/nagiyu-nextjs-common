@@ -9,12 +9,14 @@ export interface CandleStickData {
 
 type CandleStickProps = {
     data: CandleStickData[];
+    scrollable?: boolean;
+    className?: string;
 }
 
-function getOption(data: CandleStickData[], isMobile: boolean) {
+function getOption(data: CandleStickData[], isMobile: boolean, scrollable: boolean) {
     // Calculate minimum width per candle to maintain readability
     const minCandleWidth = isMobile ? 20 : 30;
-    const chartWidth = Math.max(data.length * minCandleWidth, 600);
+    const chartWidth = scrollable ? data.length * minCandleWidth : Math.max(data.length * minCandleWidth, 600);
 
     return {
         grid: {
@@ -22,7 +24,7 @@ function getOption(data: CandleStickData[], isMobile: boolean) {
             right: isMobile ? '15%' : '10%',
             bottom: isMobile ? '25%' : '20%',
             top: '10%',
-            width: chartWidth
+            width: scrollable ? chartWidth : undefined
         },
         xAxis: {
             data: data.map(item => item.date),
@@ -45,7 +47,7 @@ function getOption(data: CandleStickData[], isMobile: boolean) {
                 barWidth: isMobile ? 10 : 15
             }
         ],
-        dataZoom: [
+        dataZoom: scrollable ? undefined : [
             {
                 type: 'inside',
                 start: 0,
@@ -71,7 +73,7 @@ function getOption(data: CandleStickData[], isMobile: boolean) {
     }
 }
 
-export default function CandleStick({ data }: CandleStickProps) {
+export default function CandleStick({ data, scrollable = false, className = '' }: CandleStickProps) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -85,7 +87,15 @@ export default function CandleStick({ data }: CandleStickProps) {
         return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
+    if (scrollable) {
+        return (
+            <div className={className} style={{ overflowX: 'auto', width: '100%' }}>
+                <ReactECharts option={getOption(data, isMobile, scrollable)} />
+            </div>
+        );
+    }
+
     return (
-        <ReactECharts option={getOption(data, isMobile)} />
+        <ReactECharts option={getOption(data, isMobile, scrollable)} />
     );
 }

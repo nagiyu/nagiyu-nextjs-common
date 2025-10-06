@@ -7,10 +7,12 @@ import React, { useEffect, useState } from 'react';
 import BasicSelect from '@client-common/components/inputs/Selects/BasicSelect';
 import BasicStack from '@client-common/components/Layout/Stacks/BasicStack';
 import CandleStick, { CandleStickData } from '@client-common/components/echarts/CandleStick';
+import SimpleRadioGroup from '@client-common/components/Inputs/RadioGroups/SimpleRadioGroup';
 
 export default function EChartsCandleStickSamplePage() {
     const [data, setData] = useState<CandleStickData[]>([]);
     const [dataCount, setDataCount] = useState(10);
+    const [scrollable, setScrollable] = useState(false);
 
     const generateData = (): CandleStickData[] => {
         const newData: CandleStickData[] = [];
@@ -37,9 +39,9 @@ export default function EChartsCandleStickSamplePage() {
 
     return (
         <BasicStack>
-            <CandleStick data={data} />
+            <CandleStick data={data} scrollable={scrollable} />
             <BasicSelect
-                label='Sample Select'
+                label='Data Count'
                 options={[
                     { label: '10', value: '10' },
                     { label: '30', value: '30' },
@@ -47,6 +49,17 @@ export default function EChartsCandleStickSamplePage() {
                 ]}
                 value={dataCount.toString()}
                 onChange={(value) => setDataCount(Number(value))}
+            />
+            <SimpleRadioGroup
+                label='Scroll Mode'
+                name='scrollMode'
+                options={[
+                    { label: 'ReactECharts DataZoom', value: 'false' },
+                    { label: 'CSS Scroll', value: 'true' },
+                ]}
+                value={scrollable.toString()}
+                onChange={(_, value) => setScrollable(value === 'true')}
+                row
             />
         </BasicStack>
     );

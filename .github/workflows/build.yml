@@ -40,11 +40,11 @@ jobs:
             AWS_SECRETS, AWS
           parse-json-secrets: true
 
-      - name: Get Project Secrets from DevSample
+      - name: Get Project Secrets from DevNextjsCommonSample
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
-            PROJECT, DevSample
+            PROJECT, DevNextjsCommonSample
           parse-json-secrets: true
       
       - name: Setup Node.js

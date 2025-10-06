@@ -41,20 +41,20 @@ jobs:
           AWS_SECRETS, AWS
         parse-json-secrets: true
 
-    - name: Get Project Secrets from Sample
+    - name: Get Project Secrets from NextjsCommonSample
       if: ${{ startsWith(github.ref, 'refs/heads/master') }}
       uses: aws-actions/aws-secretsmanager-get-secrets@v2
       with:
         secret-ids: |
-          PROJECT, Sample
+          PROJECT, NextjsCommonSample
         parse-json-secrets: true
 
-    - name: Get Project Secrets from DevSample
+    - name: Get Project Secrets from DevNextjsCommonSample
       if: ${{ !startsWith(github.ref, 'refs/heads/master') }}
       uses: aws-actions/aws-secretsmanager-get-secrets@v2
       with:
         secret-ids: |
-          PROJECT, DevSample
+          PROJECT, DevNextjsCommonSample
         parse-json-secrets: true
 
     - name: Rewrite sw.js endpoint from secrets

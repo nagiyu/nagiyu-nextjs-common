@@ -20,11 +20,10 @@ function getOption(data: CandleStickData[], isMobile: boolean, scrollable: boole
 
     return {
         grid: {
-            left: isMobile ? '15%' : '10%',
-            right: isMobile ? '15%' : '10%',
+            left: isMobile ? '8%' : '10%',
+            right: isMobile ? '5%' : '10%',
             bottom: isMobile ? '15%' : '10%',
-            top: '10%',
-            width: chartWidth
+            top: '10%'
         },
         xAxis: {
             data: data.map(item => item.date),
@@ -84,12 +83,14 @@ export default function CandleStick({ data, scrollable = false, className = '' }
                     WebkitOverflowScrolling: 'touch'
                 }}
             >
-                <div style={{ width: chartWidth ? `${chartWidth}px` : '100%', minWidth: '100%' }}>
-                    <ReactECharts 
-                        option={getOption(data, isMobile, scrollable)}
-                        style={{ height: '400px', width: '100%' }}
-                    />
-                </div>
+                <ReactECharts 
+                    option={getOption(data, isMobile, scrollable)}
+                    style={{ 
+                        height: '400px', 
+                        width: chartWidth ? `${chartWidth}px` : '100%',
+                        minWidth: '100%'
+                    }}
+                />
             </div>
         );
     }

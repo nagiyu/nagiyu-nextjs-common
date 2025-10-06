@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-client-sample:
+  build-sample:
     runs-on: ubuntu-latest
 
     environment:

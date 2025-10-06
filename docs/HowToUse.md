@@ -86,6 +86,49 @@ self.addEventListener('notificationclick', function (event) {
 
 ### public/logo.png
 
+- ロゴを設定する
+
+### app/manifest.ts
+
+```typescript
+import type { MetadataRoute } from 'next'
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: 'xxx',
+    short_name: 'xxx',
+    description: 'xxx',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#000000',
+    icons: [
+      {
+        src: '/logo.png',
+        sizes: '400x400',
+        type: 'image/png'
+      }
+    ],
+    share_target: {
+      action: '/share',
+      method: 'GET',
+      params: {
+        title: 'title',
+        text: 'text',
+        url: 'url'
+      }
+    }
+  }
+}
+```
+
+### app/next-auth.d.ts
+
+```typescript
+export type { Session } from '@client-common/auth/authModule';
+export type { JWT } from '@client-common/auth/authModule';
+```
+
 ## VSCode の設定
 
 ### ワークスペース

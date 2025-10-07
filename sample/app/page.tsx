@@ -9,6 +9,10 @@ export default function Home() {
     {
       label: 'CandleStick',
       url: '/sample/echarts/candle-stick',
+    },
+    {
+      label: 'Icon',
+      url: '/sample/data/icon',
     }
   ];
 

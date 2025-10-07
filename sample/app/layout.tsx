@@ -18,6 +18,10 @@ const menuItems: MenuItemData[] = [
   {
     title: 'CandleStick',
     url: '/sample/echarts/candle-stick',
+  },
+  {
+    title: 'Icon',
+    url: '/sample/data/icon',
   }
 ];
 

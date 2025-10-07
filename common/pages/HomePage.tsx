@@ -10,7 +10,7 @@ import { ResponsiveUtil } from '@client-common/utils/ResponsiveUtil';
 
 export interface HomePageButton {
     label: string;
-    icon: React.ReactElement;
+    icon?: React.ReactElement;
     url: string;
 }
 
@@ -27,7 +27,7 @@ export default function HomePage({
     // モバイルなら3つずつ、PCなら4つずつグループ化
     const groupSize = isMobile ? 3 : 4;
     const buttonSize = isMobile ? '30vw' : '20vw';
-    
+
     const grouped: HomePageButton[][] = Array.from(
         { length: Math.ceil(buttons.length / groupSize) },
         (_, i) => buttons.slice(i * groupSize, i * groupSize + groupSize)
@@ -41,7 +41,7 @@ export default function HomePage({
                         <SquareButton
                             key={i}
                             label={btn.label}
-                            icon={btn.icon}
+                            icon={btn.icon ?? undefined}
                             size={buttonSize}
                             onClick={() => { router.push(btn.url) }}
                         />

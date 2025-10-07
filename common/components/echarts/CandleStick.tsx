@@ -9,20 +9,21 @@ export interface CandleStickData {
 
 type CandleStickProps = {
     data: CandleStickData[];
+    scrollable?: boolean;
+    className?: string;
 }
 
-function getOption(data: CandleStickData[], isMobile: boolean) {
+function getOption(data: CandleStickData[], isMobile: boolean, scrollable: boolean) {
     // Calculate minimum width per candle to maintain readability
     const minCandleWidth = isMobile ? 20 : 30;
-    const chartWidth = Math.max(data.length * minCandleWidth, 600);
+    const chartWidth = scrollable ? data.length * minCandleWidth : undefined;
 
     return {
         grid: {
-            left: isMobile ? '15%' : '10%',
-            right: isMobile ? '15%' : '10%',
-            bottom: isMobile ? '25%' : '20%',
-            top: '10%',
-            width: chartWidth
+            left: isMobile ? '8%' : '10%',
+            right: isMobile ? '5%' : '10%',
+            bottom: isMobile ? '15%' : '10%',
+            top: '10%'
         },
         xAxis: {
             data: data.map(item => item.date),
@@ -45,23 +46,6 @@ function getOption(data: CandleStickData[], isMobile: boolean) {
                 barWidth: isMobile ? 10 : 15
             }
         ],
-        dataZoom: [
-            {
-                type: 'inside',
-                start: 0,
-                end: 100,
-                zoomOnMouseWheel: true,
-                moveOnMouseMove: true,
-                moveOnMouseWheel: true
-            },
-            {
-                type: 'slider',
-                start: 0,
-                end: 100,
-                height: 20,
-                bottom: isMobile ? '2%' : '5%'
-            }
-        ],
         tooltip: {
             trigger: 'axis',
             axisPointer: {
@@ -71,7 +55,7 @@ function getOption(data: CandleStickData[], isMobile: boolean) {
     }
 }
 
-export default function CandleStick({ data }: CandleStickProps) {
+export default function CandleStick({ data, scrollable = false, className = '' }: CandleStickProps) {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -85,7 +69,36 @@ export default function CandleStick({ data }: CandleStickProps) {
         return () => window.removeEventListener('resize', checkIsMobile);
     }, []);
 
+    const minCandleWidth = isMobile ? 20 : 30;
+    const chartWidth = scrollable ? data.length * minCandleWidth : undefined;
+
+    if (scrollable) {
+        return (
+            <div 
+                className={className} 
+                style={{ 
+                    overflowX: 'auto', 
+                    overflowY: 'hidden',
+                    width: '100%',
+                    WebkitOverflowScrolling: 'touch'
+                }}
+            >
+                <ReactECharts 
+                    option={getOption(data, isMobile, scrollable)}
+                    style={{ 
+                        height: '400px', 
+                        width: chartWidth ? `${chartWidth}px` : '100%',
+                        minWidth: '100%'
+                    }}
+                />
+            </div>
+        );
+    }
+
     return (
-        <ReactECharts option={getOption(data, isMobile)} />
+        <ReactECharts 
+            option={getOption(data, isMobile, scrollable)}
+            style={{ height: '400px', width: '100%' }}
+        />
     );
 }

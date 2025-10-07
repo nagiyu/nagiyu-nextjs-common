@@ -6,7 +6,6 @@ import BasicStack from '@client-common/components/Layout/Stacks/BasicStack';
 import DirectionStack from '@client-common/components/Layout/Stacks/DirectionStack';
 import SportsEsportsIcon from '@client-common/components/data/icon/SportsEsports';
 import TrainIcon from '@client-common/components/data/icon/Train';
-import { Typography, Paper } from '@mui/material';
 
 export default function IconSamplePage() {
     const icons = [
@@ -16,26 +15,26 @@ export default function IconSamplePage() {
 
     return (
         <BasicStack>
-            <Typography variant="h4" gutterBottom>
-                Icon Demo
-            </Typography>
+            <h2>Icon Demo</h2>
             <DirectionStack>
                 {icons.map(({ name, component: IconComponent }) => (
-                    <Paper
+                    <div
                         key={name}
-                        elevation={3}
-                        sx={{
-                            padding: 3,
+                        style={{
+                            padding: '24px',
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            gap: 2,
-                            minWidth: 150,
+                            gap: '16px',
+                            minWidth: '150px',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         }}
                     >
-                        <IconComponent sx={{ fontSize: 48 }} />
-                        <Typography variant="body1">{name}</Typography>
-                    </Paper>
+                        <IconComponent style={{ fontSize: '48px' }} />
+                        <span>{name}</span>
+                    </div>
                 ))}
             </DirectionStack>
         </BasicStack>

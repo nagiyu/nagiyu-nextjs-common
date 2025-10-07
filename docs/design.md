@@ -213,6 +213,7 @@ common/
 - `Check`: チェックマークアイコン
 - `Close`: 閉じる/クローズアイコン
 - `Menu`: メニューアイコン
+- `Refresh`: 更新/リフレッシュアイコン
 
 #### Navigation コンポーネント
 **Menus:**

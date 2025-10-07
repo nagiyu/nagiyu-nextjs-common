@@ -203,6 +203,16 @@ common/
 **Icon:**
 - `SportsEsports`: ゲームアイコン
 - `Train`: 電車アイコン
+- `Home`: ホームアイコン
+- `Settings`: 設定アイコン
+- `Search`: 検索アイコン
+- `Star`: お気に入り/スターアイコン
+- `Delete`: 削除アイコン
+- `Edit`: 編集アイコン
+- `Add`: 追加アイコン
+- `Check`: チェックマークアイコン
+- `Close`: 閉じる/クローズアイコン
+- `Menu`: メニューアイコン
 
 #### Navigation コンポーネント
 **Menus:**

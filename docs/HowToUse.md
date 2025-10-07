@@ -129,6 +129,10 @@ export type { Session } from '@client-common/auth/authModule';
 export type { JWT } from '@client-common/auth/authModule';
 ```
 
+### app/globals.css
+
+- 必要に応じてダークモードは解除する。
+
 ## VSCode の設定
 
 ### ワークスペース

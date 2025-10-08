@@ -17,6 +17,7 @@ import AddIcon from '@client-common/components/data/icon/Add';
 import CheckIcon from '@client-common/components/data/icon/Check';
 import CloseIcon from '@client-common/components/data/icon/Close';
 import MenuIcon from '@client-common/components/data/icon/Menu';
+import RefreshIcon from '@client-common/components/data/icon/Refresh';
 
 export default function IconSamplePage() {
     const isMobile = ResponsiveUtil.useMobileDetection();
@@ -34,6 +35,7 @@ export default function IconSamplePage() {
         { name: 'Check', component: CheckIcon },
         { name: 'Close', component: CloseIcon },
         { name: 'Menu', component: MenuIcon },
+        { name: 'Refresh', component: RefreshIcon },
     ];
 
     // モバイルなら3つずつ、PCなら4つずつグループ化

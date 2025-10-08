@@ -29,7 +29,7 @@ npx create-next-app@latest
         "./*"
       ],
       "@common/*": [
-        "../typescript-common/*"
+        "../typescript-common/common/*"
       ],
       "@client-common/*": [
         "../nextjs-common/common/*"
@@ -149,7 +149,7 @@ export type { JWT } from '@client-common/auth/authModule';
       "name": "client-common"
     },
     {
-      "path": "../typescript-common",
+      "path": "../typescript-common/common",
       "name": "common"
     },
     {
@@ -240,11 +240,11 @@ ARG NEXTAUTH_URL
 
 WORKDIR /app
 
-COPY typescript-common ./typescript-common
+COPY typescript-common ./typescript-common/common
 COPY nextjs-common/common ./nextjs-common/common
 COPY xxx ./xxx
 
-WORKDIR /app/typescript-common
+WORKDIR /app/typescript-common/common
 RUN npm install
 
 WORKDIR /app/nextjs-common/common
@@ -274,8 +274,8 @@ COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.9.1 /lambda-adapter /opt
 
 ENV AWS_LWA_PORT=3000
 
-WORKDIR /app/typescript-common
-COPY --from=builder /app/typescript-common .
+WORKDIR /app/typescript-common/common
+COPY --from=builder /app/typescript-common/common .
 
 WORKDIR /app/nextjs-common/common
 COPY --from=builder /app/nextjs-common/common .

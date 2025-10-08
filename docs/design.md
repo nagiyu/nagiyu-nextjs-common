@@ -161,11 +161,13 @@ common/
 - `NotificationSettingButton`: 通知設定ボタン
 - `SignInButton`: サインインボタン
 - `SignOutButton`: サインアウトボタン
+- `SendButton`: 送信ボタン（チャット用）
 
 **TextFields:**
 - `BasicTextField`: 基本的なテキストフィールド
 - `BasicNumberField`: 数値入力フィールド
 - `CurrencyNumberField`: 通貨入力フィールド（USD⇔円の変換機能付き）
+- `ChatInputField`: チャット用マルチライン入力フィールド
 
 **Selects:**
 - `BasicSelect`: 基本的なセレクトボックス
@@ -219,6 +221,8 @@ common/
 - `Close`: 閉じる/クローズアイコン
 - `Menu`: メニューアイコン
 - `Refresh`: 更新/リフレッシュアイコン
+- `Person`: 人物/ユーザーアイコン
+- `SmartToy`: AI/ロボットアイコン
 
 #### Navigation コンポーネント
 **Menus:**

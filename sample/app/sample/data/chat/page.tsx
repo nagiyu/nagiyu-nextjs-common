@@ -5,10 +5,11 @@ import React, { useState } from 'react';
 import BasicStack from '@client-common/components/Layout/Stacks/BasicStack';
 import ChatContainer from '@client-common/components/data/chat/ChatContainer';
 import { ChatMessageData } from '@client-common/components/data/chat/ChatMessage';
-import { Button, TextField } from '@mui/material';
+import ChatInputField from '@client-common/components/inputs/TextFields/ChatInputField';
+import SendButton from '@client-common/components/inputs/buttons/SendButton';
 import DirectionStack from '@client-common/components/Layout/Stacks/DirectionStack';
-import Person from '@mui/icons-material/Person';
-import SmartToy from '@mui/icons-material/SmartToy';
+import PersonIcon from '@client-common/components/data/icon/Person';
+import SmartToyIcon from '@client-common/components/data/icon/SmartToy';
 
 export default function ChatSamplePage() {
     const [messages, setMessages] = useState<ChatMessageData[]>([
@@ -18,7 +19,7 @@ export default function ChatSamplePage() {
             sender: 'system',
             senderName: 'AI Assistant',
             timestamp: new Date(Date.now() - 300000),
-            avatarIcon: <SmartToy />,
+            avatarIcon: <SmartToyIcon />,
         },
         {
             id: '2',
@@ -26,7 +27,7 @@ export default function ChatSamplePage() {
             sender: 'user',
             senderName: 'User',
             timestamp: new Date(Date.now() - 240000),
-            avatarIcon: <Person />,
+            avatarIcon: <PersonIcon />,
         },
         {
             id: '3',
@@ -34,7 +35,7 @@ export default function ChatSamplePage() {
             sender: 'system',
             senderName: 'AI Assistant',
             timestamp: new Date(Date.now() - 180000),
-            avatarIcon: <SmartToy />,
+            avatarIcon: <SmartToyIcon />,
         },
     ]);
     const [inputText, setInputText] = useState('');
@@ -48,7 +49,7 @@ export default function ChatSamplePage() {
             sender: 'user',
             senderName: 'User',
             timestamp: new Date(),
-            avatarIcon: <Person />,
+            avatarIcon: <PersonIcon />,
         };
 
         setMessages([...messages, newMessage]);
@@ -62,7 +63,7 @@ export default function ChatSamplePage() {
                 sender: 'system',
                 senderName: 'AI Assistant',
                 timestamp: new Date(),
-                avatarIcon: <SmartToy />,
+                avatarIcon: <SmartToyIcon />,
             };
             setMessages((prev) => [...prev, aiResponse]);
         }, 1000);
@@ -80,24 +81,15 @@ export default function ChatSamplePage() {
             <h2>Chat Component Demo</h2>
             <ChatContainer messages={messages} height="500px" />
             <DirectionStack spacing={1}>
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    placeholder="メッセージを入力..."
+                <ChatInputField
                     value={inputText}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputText(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    multiline
-                    maxRows={3}
                 />
-                <Button
-                    variant="contained"
+                <SendButton
                     onClick={handleSendMessage}
                     disabled={inputText.trim() === ''}
-                    sx={{ minWidth: '100px' }}
-                >
-                    送信
-                </Button>
+                />
             </DirectionStack>
         </BasicStack>
     );

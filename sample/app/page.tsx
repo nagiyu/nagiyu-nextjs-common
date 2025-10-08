@@ -13,6 +13,10 @@ export default function Home() {
     {
       label: 'Icon',
       url: '/sample/data/icon',
+    },
+    {
+      label: 'Chat',
+      url: '/sample/data/chat',
     }
   ];
 

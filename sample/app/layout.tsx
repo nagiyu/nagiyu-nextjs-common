@@ -22,6 +22,10 @@ const menuItems: MenuItemData[] = [
   {
     title: 'Icon',
     url: '/sample/data/icon',
+  },
+  {
+    title: 'Chat',
+    url: '/sample/data/chat',
   }
 ];
 

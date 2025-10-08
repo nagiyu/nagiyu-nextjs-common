@@ -83,6 +83,7 @@ common/
 │   ├── content/            # コンテンツ表示コンポーネント
 │   ├── data/               # データ表示コンポーネント
 │   │   ├── avatar/         # アバター関連
+│   │   ├── chat/           # チャット関連
 │   │   ├── icon/           # アイコン関連
 │   │   └── table/          # テーブル関連
 │   ├── echarts/            # グラフ・チャートコンポーネント
@@ -199,6 +200,10 @@ common/
 
 **Avatar:**
 - `UserIconAvatar`: ユーザーアイコンアバター
+
+**Chat:**
+- `ChatMessage`: チャットメッセージバブルコンポーネント
+- `ChatContainer`: チャットメッセージのスクロール可能なコンテナ
 
 **Icon:**
 - `SportsEsports`: ゲームアイコン

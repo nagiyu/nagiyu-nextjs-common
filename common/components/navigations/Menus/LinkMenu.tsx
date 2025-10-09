@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 export type MenuItemData = {
     title: string;
     url?: string;
-    dialog?: React.ReactNode;
+    dialog?: (open: boolean, onClose: () => void) => React.ReactNode;
 };
 
 type LinkMenuProps = {
@@ -76,11 +76,9 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
             </Menu>
             {menuItems.map((item, index) => 
                 item.dialog && dialogOpen === index ? (
-                    React.cloneElement(item.dialog as React.ReactElement, {
-                        key: `dialog-${index}`,
-                        open: true,
-                        onClose: handleDialogClose,
-                    })
+                    <React.Fragment key={`dialog-${index}`}>
+                        {item.dialog(true, handleDialogClose)}
+                    </React.Fragment>
                 ) : null
             )}
         </>

@@ -241,9 +241,11 @@ common/
       },
       {
         title: 'Settings',
-        dialog: (  // ダイアログ指定でダイアログ表示
+        dialog: (open, onClose) => (  // ダイアログ指定でダイアログ表示
           <BasicDialog
+            open={open}
             title='Settings'
+            onClose={onClose}
           >
             {() => <div>Settings content</div>}
           </BasicDialog>

@@ -14,8 +14,12 @@ export default function LinkMenuDemoPage() {
         },
         {
             title: 'Sample Dialog',
-            dialog: (
-                <BasicDialog title='Sample Dialog'>
+            dialog: (open, onClose) => (
+                <BasicDialog 
+                    open={open} 
+                    title='Sample Dialog'
+                    onClose={onClose}
+                >
                     {() => (
                         <div>
                             This is a sample dialog opened from the LinkMenu.
@@ -27,9 +31,11 @@ export default function LinkMenuDemoPage() {
         },
         {
             title: 'Info Dialog with Confirm',
-            dialog: (
+            dialog: (open, onClose) => (
                 <BasicDialog
+                    open={open}
                     title='Information'
+                    onClose={onClose}
                     onConfirm={async () => {
                         console.log('Confirmed from LinkMenu dialog!');
                     }}

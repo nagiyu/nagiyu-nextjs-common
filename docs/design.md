@@ -227,6 +227,32 @@ common/
 #### Navigation コンポーネント
 **Menus:**
 - `LinkMenu`: リンクメニュー（ドロワー形式のナビゲーションメニュー）
+  - URL指定による画面遷移をサポート
+  - ダイアログ指定によるダイアログ表示をサポート
+  - 使用例:
+    ```tsx
+    import LinkMenu, { MenuItemData } from '@client-common/components/navigations/Menus/LinkMenu';
+    import BasicDialog from '@client-common/components/feedback/dialog/BasicDialog';
+
+    const menuItems: MenuItemData[] = [
+      {
+        title: 'Home',
+        url: '/',  // URL指定で画面遷移
+      },
+      {
+        title: 'Settings',
+        dialog: (  // ダイアログ指定でダイアログ表示
+          <BasicDialog
+            title='Settings'
+          >
+            {() => <div>Settings content</div>}
+          </BasicDialog>
+        ),
+      },
+    ];
+
+    <LinkMenu menuItems={menuItems} />
+    ```
 
 #### Surfaces コンポーネント
 **AppBars:**

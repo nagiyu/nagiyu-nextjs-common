@@ -20,18 +20,8 @@ type LinkMenuProps = {
 export default function LinkMenu({ menuItems, enableNotification = false }: LinkMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [dialogOpen, setDialogOpen] = useState<number | null>(null);
+    const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
     const open = Boolean(anchorEl);
-
-    // Add notification settings to menu items if enabled
-    const allMenuItems = [...menuItems];
-    if (enableNotification) {
-        allMenuItems.push({
-            title: 'Notification Settings',
-            dialog: (open, onClose) => (
-                <NotificationSettingDialog open={open} onClose={onClose} />
-            ),
-        });
-    }
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -42,15 +32,24 @@ export default function LinkMenu({ menuItems, enableNotification = false }: Link
     };
 
     const handleMenuItemClick = (index: number) => {
-        const item = allMenuItems[index];
-        if (item.dialog) {
-            setDialogOpen(index);
+        if (enableNotification && index === menuItems.length) {
+            // This is the notification settings item
+            setNotificationDialogOpen(true);
+        } else {
+            const item = menuItems[index];
+            if (item.dialog) {
+                setDialogOpen(index);
+            }
         }
         handleClose();
     };
 
     const handleDialogClose = () => {
         setDialogOpen(null);
+    };
+
+    const handleNotificationDialogClose = () => {
+        setNotificationDialogOpen(false);
     };
 
     return (
@@ -70,7 +69,7 @@ export default function LinkMenu({ menuItems, enableNotification = false }: Link
                 open={open}
                 onClose={handleClose}
             >
-                {allMenuItems.map((item, index) => (
+                {menuItems.map((item, index) => (
                     <MenuItem 
                         onClick={() => handleMenuItemClick(index)} 
                         key={item.url || `dialog-${index}`}
@@ -86,13 +85,29 @@ export default function LinkMenu({ menuItems, enableNotification = false }: Link
                         )}
                     </MenuItem>
                 ))}
+                {enableNotification && (
+                    <MenuItem 
+                        onClick={() => handleMenuItemClick(menuItems.length)} 
+                        key="notification-settings"
+                    >
+                        <span style={{ width: '100%' }}>
+                            Notification Settings
+                        </span>
+                    </MenuItem>
+                )}
             </Menu>
-            {allMenuItems.map((item, index) => 
+            {menuItems.map((item, index) => 
                 item.dialog && dialogOpen === index ? (
                     <React.Fragment key={`dialog-${index}`}>
                         {item.dialog(true, handleDialogClose)}
                     </React.Fragment>
                 ) : null
+            )}
+            {notificationDialogOpen && (
+                <NotificationSettingDialog 
+                    open={notificationDialogOpen} 
+                    onClose={handleNotificationDialogClose} 
+                />
             )}
         </>
     );

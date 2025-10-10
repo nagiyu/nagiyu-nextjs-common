@@ -315,7 +315,8 @@ const terminalId = await IdentifierUtil.getTerminalId();
 ```typescript
 import IdentifierUtil from '@client-common/utils/IdentifierUtil.server';
 
-// ユーザーIDを取得（ログインしていない場合はnull）
+// ユーザーID（AuthDataのid）を取得（ログインしていない場合はnull）
+// セッションからGoogleUserIdを取得し、AuthDataを検索してUserIDを返す
 const userId = await IdentifierUtil.getIdentifier();
 ```
 

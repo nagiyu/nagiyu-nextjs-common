@@ -1,5 +1,7 @@
 import { Session } from 'next-auth';
 
+import SimpleAuthService from '@common/services/auth/SimpleAuthService';
+
 import SessionUtil from '@client-common/utils/SessionUtil.server';
 
 export default class IdentifierUtil {
@@ -22,11 +24,21 @@ export default class IdentifierUtil {
 
   /**
    * Get user ID from session.
+   * Gets the GoogleUserId from session, then looks up the AuthData to get the actual UserID.
    * 
    * @param {Session} session - The session object
    * @returns {Promise<string | null>} User ID or null
    */
   private static async getUserId(session: Session): Promise<string | null> {
-    return await SessionUtil.getGoogleUserIdFromSession(session);
+    const googleUserId = await SessionUtil.getGoogleUserIdFromSession(session);
+    
+    if (!googleUserId) {
+      return null;
+    }
+
+    const authService = new SimpleAuthService();
+    const authData = await authService.getByGoogleUserId(googleUserId);
+    
+    return authData?.id || null;
   }
 }

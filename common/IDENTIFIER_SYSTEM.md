@@ -25,8 +25,9 @@ A client component that automatically initializes the terminal ID when the Commo
 **Location**: `common/utils/IdentifierUtil.server.ts`
 
 Server-side utility for getting the user identifier:
-- `getIdentifier()`: Returns Google User ID if logged in, null otherwise
-- Uses `SessionUtil` to check session and get user ID
+- `getIdentifier()`: Returns User ID (from AuthData) if logged in, null otherwise
+- Gets GoogleUserId from session, then looks up AuthData to get the actual UserID
+- Uses `SessionUtil` to check session and `SimpleAuthService` to get user data
 
 ### IdentifierUtil (Client)
 

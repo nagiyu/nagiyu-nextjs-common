@@ -424,8 +424,8 @@ interface AdminManagementProps<
 #### IdentifierUtil (識別子管理)
 **IdentifierUtil.server.ts** (サーバー側)
 - ユーザーまたはターミナルを識別するためのユーティリティ
-- `getIdentifier()`: ログイン済みの場合はUserID、未ログインの場合はnullを返す
-- セッション情報からGoogle UserIDを取得
+- `getIdentifier()`: ログイン済みの場合はUserID（AuthDataのid）、未ログインの場合はnullを返す
+- セッション情報からGoogle UserIDを取得し、SimpleAuthServiceでAuthDataを検索してUserIDを取得
 
 **IdentifierUtil.client.ts** (クライアント側)
 - ユーザーまたはターミナルを識別するためのユーティリティ

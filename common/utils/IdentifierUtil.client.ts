@@ -1,3 +1,5 @@
+import ErrorUtil from '@common/utils/ErrorUtil';
+
 import TerminalUtil from '@client-common/utils/TerminalUtil.client';
 import ResponseValidator from '@client-common/utils/ResponseValidator';
 
@@ -24,7 +26,7 @@ export default class IdentifierUtil {
       }
     } catch (error) {
       // If identifier check fails, fall back to terminal ID
-      console.error('Failed to get identifier from API:', error);
+      ErrorUtil.throwError('Failed to get identifier from API', error);
     }
     
     // Fall back to terminal ID

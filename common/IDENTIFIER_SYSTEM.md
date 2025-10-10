@@ -62,22 +62,35 @@ Returns the current identifier information:
 
 ### Client-side
 
+#### Basic Usage (クライアントサイドでの基本的な使い方)
+
+ユーザーまたはターミナルを識別するIDを取得する場合、`IdentifierUtil`を使用します。
+
 ```typescript
 import IdentifierUtil from '@client-common/utils/IdentifierUtil.client';
 
 // Get identifier (User ID or Terminal ID)
+// ユーザーIDまたはターミナルIDを取得
 const identifier = await IdentifierUtil.getIdentifier();
+// ログイン済みの場合はUserID、未ログインの場合はTerminalIDを返す
 
 // Get only Terminal ID
+// ターミナルIDのみを取得（ログイン状態に関わらず）
 const terminalId = await IdentifierUtil.getTerminalId();
 ```
 
 ### Server-side
 
+#### Basic Usage (サーバーサイドでの基本的な使い方)
+
+サーバーサイドでユーザーIDを取得する場合、`IdentifierUtil.server.ts`を使用します。
+
 ```typescript
 import IdentifierUtil from '@client-common/utils/IdentifierUtil.server';
 
 // Get User ID (null if not logged in)
+// ユーザーID（AuthDataのid）を取得（ログインしていない場合はnull）
+// セッションからGoogleUserIdを取得し、AuthDataを検索してUserIDを返す
 const userId = await IdentifierUtil.getIdentifier();
 ```
 
@@ -87,6 +100,14 @@ The TerminalIdInitializer is automatically integrated into CommonLayout, so any 
 1. Automatic terminal ID generation on first visit
 2. Terminal ID persistence in localStorage
 3. Ability to retrieve user/terminal identifiers via IdentifierUtil
+
+### Automatic Terminal ID Initialization (ターミナルID自動初期化)
+
+`CommonLayout`を使用している場合、ターミナルIDは自動的に初期化されます。
+初回アクセス時にUUIDが生成され、localStorageに保存されます。
+
+When using `CommonLayout`, the terminal ID is automatically initialized.
+A UUID is generated on the first visit and stored in localStorage.
 
 ## Testing
 
@@ -99,4 +120,3 @@ A test page is available at `/sample/identifier` in the sample application that 
 
 See the following for more details:
 - `docs/design.md` - Architecture and design details
-- `docs/HowToUse.md` - Usage instructions and examples

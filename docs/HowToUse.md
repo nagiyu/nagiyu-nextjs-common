@@ -291,38 +291,4 @@ USER node
 CMD ["node", "server.js"]
 ```
 
-## 識別子の取得
-
-### クライアント側での識別子取得
-
-ユーザーまたはターミナルを識別するIDを取得する場合、`IdentifierUtil`を使用します。
-
-```typescript
-import IdentifierUtil from '@client-common/utils/IdentifierUtil.client';
-
-// ユーザーIDまたはターミナルIDを取得
-const identifier = await IdentifierUtil.getIdentifier();
-// ログイン済みの場合はUserID、未ログインの場合はTerminalIDを返す
-
-// ターミナルIDのみを取得（ログイン状態に関わらず）
-const terminalId = await IdentifierUtil.getTerminalId();
-```
-
-### サーバー側での識別子取得
-
-サーバーサイドでユーザーIDを取得する場合、`IdentifierUtil.server.ts`を使用します。
-
-```typescript
-import IdentifierUtil from '@client-common/utils/IdentifierUtil.server';
-
-// ユーザーID（AuthDataのid）を取得（ログインしていない場合はnull）
-// セッションからGoogleUserIdを取得し、AuthDataを検索してUserIDを返す
-const userId = await IdentifierUtil.getIdentifier();
-```
-
-### ターミナルID自動初期化
-
-`CommonLayout`を使用している場合、ターミナルIDは自動的に初期化されます。
-初回アクセス時にUUIDが生成され、localStorageに保存されます。
-
 ### GitHub Actions

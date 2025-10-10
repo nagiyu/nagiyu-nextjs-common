@@ -1,10 +1,6 @@
 import APIUtil from '@client-common/utils/APIUtil';
 import IdentifierUtil from '@client-common/utils/IdentifierUtil.server';
-
-export interface IdentifierResponse {
-  identifier: string | null;
-  type: 'user' | 'terminal' | 'none';
-}
+import { IdentifierResponse } from '@client-common/types/IdentifierResponse';
 
 export async function GET() {
   const userId = await IdentifierUtil.getIdentifier();

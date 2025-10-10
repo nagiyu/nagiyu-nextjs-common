@@ -7,7 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 export type MenuItemData = {
     title: string;
-    url: string;
+    url?: string;
+    dialog?: (open: boolean, onClose: () => void) => React.ReactNode;
 };
 
 type LinkMenuProps = {
@@ -16,6 +17,7 @@ type LinkMenuProps = {
 
 export default function LinkMenu({ menuItems }: LinkMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [dialogOpen, setDialogOpen] = useState<number | null>(null);
     const open = Boolean(anchorEl);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -24,6 +26,18 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleMenuItemClick = (index: number) => {
+        const item = menuItems[index];
+        if (item.dialog) {
+            setDialogOpen(index);
+        }
+        handleClose();
+    };
+
+    const handleDialogClose = () => {
+        setDialogOpen(null);
     };
 
     return (
@@ -43,14 +57,30 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
                 open={open}
                 onClose={handleClose}
             >
-                {menuItems.map((item) => (
-                    <MenuItem onClick={handleClose} key={item.url}>
-                        <Link href={item.url} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
-                            {item.title}
-                        </Link>
+                {menuItems.map((item, index) => (
+                    <MenuItem 
+                        onClick={() => handleMenuItemClick(index)} 
+                        key={item.url || `dialog-${index}`}
+                    >
+                        {item.url ? (
+                            <Link href={item.url} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                                {item.title}
+                            </Link>
+                        ) : (
+                            <span style={{ width: '100%' }}>
+                                {item.title}
+                            </span>
+                        )}
                     </MenuItem>
                 ))}
             </Menu>
+            {menuItems.map((item, index) => 
+                item.dialog && dialogOpen === index ? (
+                    <React.Fragment key={`dialog-${index}`}>
+                        {item.dialog(true, handleDialogClose)}
+                    </React.Fragment>
+                ) : null
+            )}
         </>
     );
 }

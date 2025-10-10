@@ -26,6 +26,10 @@ const menuItems: MenuItemData[] = [
   {
     title: 'Chat',
     url: '/sample/data/chat',
+  },
+  {
+    title: 'LinkMenu Demo',
+    url: '/sample/linkmenu-demo',
   }
 ];
 

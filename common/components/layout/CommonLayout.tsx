@@ -7,8 +7,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import AccountContent from '@client-common/components/content/AccountContent';
 import BasicAppBar from '@client-common/components/surfaces/AppBars/BasicAppBar';
 import DirectionStack from '@client-common/components/Layout/Stacks/DirectionStack';
-import { MenuItemData } from '@client-common/components/navigations/Menus/LinkMenu';
-import LinkMenuWithNotification from '@client-common/components/navigations/Menus/LinkMenuWithNotification';
+import LinkMenu, { MenuItemData } from '@client-common/components/navigations/Menus/LinkMenu';
 import SessionUtil from '@client-common/utils/SessionUtil.server';
 import SignInButton from '@client-common/components/inputs/Buttons/SignInButton';
 import SignoutButton from '@client-common/components/inputs/Buttons/SignOutButton';
@@ -65,7 +64,7 @@ export default async function CommonLayout({
             return null;
         }
 
-        return <LinkMenuWithNotification menuItems={menuItems} enableNotification={enableNotification} />;
+        return <LinkMenu menuItems={menuItems} enableNotification={enableNotification} />;
     }
 
     // Get AdSense config dynamically if enabled

@@ -105,6 +105,11 @@ export default function AdminManagement<ItemType extends DataTypeBase, StateType
         setDeleteDialogOpen(false);
     };
 
+    const handleRefresh = async () => {
+        const data = await fetchData();
+        setItems(data.map(itemToTable));
+    };
+
     useEffect(() => {
         (async () => {
             const data = await fetchData();
@@ -114,7 +119,10 @@ export default function AdminManagement<ItemType extends DataTypeBase, StateType
 
     return (
         <>
-            <ContainsButton label='Create' onClick={onCreateClick} disabled={loading} />
+            <DirectionStack>
+                <ContainsButton label='Create' onClick={onCreateClick} disabled={loading} />
+                <ContainsButton label='Refresh' onClick={handleRefresh} disabled={loading} />
+            </DirectionStack>
             <BasicTable columns={columns} data={items} loading={loading} />
             <EditDialog
                 open={editDialogOpen}

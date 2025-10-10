@@ -238,6 +238,8 @@ common/
 
 #### Admin コンポーネント
 - `AdminManagement`: 管理画面の汎用管理コンポーネント（CRUD操作対応）
+  - Create、Edit、Delete、Refreshボタンを提供
+  - Refreshボタンでキャッシュを使わずにデータを再取得
 
 #### Chart/Graph コンポーネント
 - EChartsを使用したグラフコンポーネント群

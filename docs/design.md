@@ -154,11 +154,11 @@ common/
 - アプリケーション全体の共通レイアウト
 - 認証、通知、Google AdSenseの統合機能を提供
 - BasicAppBar、メニュー、認証ボタンなどを含む
+- 通知が有効な場合、LinkMenuに通知設定ダイアログを開く項目を自動追加
 
 #### Inputs コンポーネント
 **Buttons:**
 - `SquareButton`: 正方形ボタン（アイコン＋ラベル）
-- `NotificationSettingButton`: 通知設定ボタン
 - `SignInButton`: サインインボタン
 - `SignOutButton`: サインアウトボタン
 - `SendButton`: 送信ボタン（チャット用）

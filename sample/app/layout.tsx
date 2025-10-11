@@ -30,6 +30,10 @@ const menuItems: MenuItemData[] = [
   {
     title: 'LinkMenu Demo',
     url: '/sample/linkmenu-demo',
+  },
+  {
+    title: 'Identifier',
+    url: '/sample/identifier',
   }
 ];
 

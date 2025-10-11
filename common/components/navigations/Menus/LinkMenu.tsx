@@ -10,14 +10,14 @@ export type MenuItemData = {
     title: string;
     url?: string;
     dialog?: (open: boolean, onClose: () => void) => React.ReactNode;
+    dialogType?: 'notification';  // Special type for built-in dialogs
 };
 
 type LinkMenuProps = {
     menuItems: MenuItemData[];
-    enableNotification?: boolean;
 };
 
-export default function LinkMenu({ menuItems, enableNotification = false }: LinkMenuProps) {
+export default function LinkMenu({ menuItems }: LinkMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [dialogOpen, setDialogOpen] = useState<number | null>(null);
     const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
@@ -32,15 +32,15 @@ export default function LinkMenu({ menuItems, enableNotification = false }: Link
     };
 
     const handleMenuItemClick = (index: number) => {
-        if (enableNotification && index === menuItems.length) {
-            // This is the notification settings item
+        const item = menuItems[index];
+        
+        // Check if it's a special built-in dialog type
+        if (item.dialogType === 'notification') {
             setNotificationDialogOpen(true);
-        } else {
-            const item = menuItems[index];
-            if (item.dialog) {
-                setDialogOpen(index);
-            }
+        } else if (item.dialog) {
+            setDialogOpen(index);
         }
+        
         handleClose();
     };
 
@@ -85,16 +85,6 @@ export default function LinkMenu({ menuItems, enableNotification = false }: Link
                         )}
                     </MenuItem>
                 ))}
-                {enableNotification && (
-                    <MenuItem 
-                        onClick={() => handleMenuItemClick(menuItems.length)} 
-                        key="notification-settings"
-                    >
-                        <span style={{ width: '100%' }}>
-                            Notification Settings
-                        </span>
-                    </MenuItem>
-                )}
             </Menu>
             {menuItems.map((item, index) => 
                 item.dialog && dialogOpen === index ? (

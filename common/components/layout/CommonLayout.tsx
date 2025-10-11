@@ -60,11 +60,20 @@ export default async function CommonLayout({
     }
 
     const menuContent = (): React.ReactNode => {
-        if (menuItems.length === 0 && !enableNotification) {
+        // Add notification settings to menu items if enabled
+        const allMenuItems = [...menuItems];
+        if (enableNotification) {
+            allMenuItems.push({
+                title: 'Notification Settings',
+                dialogType: 'notification',
+            });
+        }
+
+        if (allMenuItems.length === 0) {
             return null;
         }
 
-        return <LinkMenu menuItems={menuItems} enableNotification={enableNotification} />;
+        return <LinkMenu menuItems={allMenuItems} />;
     }
 
     // Get AdSense config dynamically if enabled

@@ -73,7 +73,7 @@ export default function ChatMessage({
                         wordBreak: 'break-word',
                     }}
                 >
-                    <Typography variant="body1">
+                    <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap' }}>
                         {message.content}
                     </Typography>
                 </Box>

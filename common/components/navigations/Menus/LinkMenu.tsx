@@ -4,13 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationSettingDialog from '@client-common/components/feedback/dialog/NotificationSettingDialog';
 
 export type MenuItemData = {
     title: string;
     url?: string;
     dialog?: (open: boolean, onClose: () => void) => React.ReactNode;
-    dialogType?: 'notification';  // Special type for built-in dialogs
 };
 
 type LinkMenuProps = {
@@ -20,7 +18,6 @@ type LinkMenuProps = {
 export default function LinkMenu({ menuItems }: LinkMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [dialogOpen, setDialogOpen] = useState<number | null>(null);
-    const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
     const open = Boolean(anchorEl);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -34,10 +31,7 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
     const handleMenuItemClick = (index: number) => {
         const item = menuItems[index];
         
-        // Check if it's a special built-in dialog type
-        if (item.dialogType === 'notification') {
-            setNotificationDialogOpen(true);
-        } else if (item.dialog) {
+        if (item.dialog) {
             setDialogOpen(index);
         }
         
@@ -46,10 +40,6 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
 
     const handleDialogClose = () => {
         setDialogOpen(null);
-    };
-
-    const handleNotificationDialogClose = () => {
-        setNotificationDialogOpen(false);
     };
 
     return (
@@ -92,12 +82,6 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
                         {item.dialog(true, handleDialogClose)}
                     </React.Fragment>
                 ) : null
-            )}
-            {notificationDialogOpen && (
-                <NotificationSettingDialog 
-                    open={notificationDialogOpen} 
-                    onClose={handleNotificationDialogClose} 
-                />
             )}
         </>
     );

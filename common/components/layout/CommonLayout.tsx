@@ -12,6 +12,7 @@ import SessionUtil from '@client-common/utils/SessionUtil.server';
 import SignInButton from '@client-common/components/inputs/Buttons/SignInButton';
 import SignoutButton from '@client-common/components/inputs/Buttons/SignOutButton';
 import AdSenseUtil from '@client-common/utils/AdSenseUtil.server';
+import TerminalIdInitializer from '@client-common/components/utils/TerminalIdInitializer';
 
 interface CommonLayoutProps {
     title: string;
@@ -95,6 +96,7 @@ export default async function CommonLayout({
                 )}
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
+                <TerminalIdInitializer />
                 <BasicAppBar
                     left={
                         <DirectionStack>

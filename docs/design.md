@@ -131,6 +131,8 @@ common/
     ├── AdSenseUtil.server.ts       # AdSense統合（サーバー）
     ├── APIUtil.ts                  # API関連
     ├── TerminalUtil.client.ts      # ターミナル処理（クライアント）
+    ├── IdentifierUtil.server.ts    # 識別子取得（サーバー）
+    ├── IdentifierUtil.client.ts    # 識別子取得（クライアント）
     ├── NotificationUtil.server.ts  # 通知処理（サーバー）
     └── NotificationUtil.client.ts  # 通知処理（クライアント）
 ```
@@ -155,6 +157,7 @@ common/
 - 認証、通知、Google AdSenseの統合機能を提供
 - BasicAppBar、メニュー、認証ボタンなどを含む
 - 通知が有効な場合、LinkMenuに通知設定ダイアログを開く項目を自動追加
+- ターミナルID自動初期化機能（TerminalIdInitializer使用）
 
 #### Inputs コンポーネント
 **Buttons:**
@@ -292,6 +295,13 @@ common/
   - エンドポイント: `/api/terminal`
   - メソッド: GET
   - 機能: ユニークなターミナルIDを生成
+
+#### 識別子API (`routes/identifier/`)
+- **識別子取得API**
+  - エンドポイント: `/api/identifier`
+  - メソッド: GET
+  - 機能: ユーザーIDまたはターミナルIDを取得
+  - 動作: ログイン済みの場合はUserID、未ログインの場合はnullを返す
 
 ### リクエスト/レスポンス仕様
 
@@ -440,6 +450,26 @@ interface AdminManagementProps<
 **SessionUtil.server.ts**
 - サーバーサイドでのセッション確認
 - `hasSession()`: セッションの有無を確認
+
+#### IdentifierUtil (識別子管理)
+**IdentifierUtil.server.ts** (サーバー側)
+- ユーザーまたはターミナルを識別するためのユーティリティ
+- `getIdentifier()`: ログイン済みの場合はUserID（AuthDataのid）、未ログインの場合はnullを返す
+- セッション情報からGoogle UserIDを取得し、SimpleAuthServiceでAuthDataを検索してUserIDを取得
+
+**IdentifierUtil.client.ts** (クライアント側)
+- ユーザーまたはターミナルを識別するためのユーティリティ
+- `getIdentifier()`: ログイン済みの場合はUserID、未ログインの場合はTerminalIDを返す
+- `/api/identifier` APIを使用してサーバーからUserIDを取得
+- UserIDが取得できない場合は自動的にTerminalIDにフォールバック
+- `getTerminalId()`: ターミナルIDのみを取得（ログイン状態に関わらず）
+
+#### TerminalIdInitializer (コンポーネント)
+**TerminalIdInitializer.tsx**
+- CommonLayout内で自動的にターミナルIDを初期化
+- useEffectでコンポーネントマウント時に`TerminalUtil.getTerminalId()`を呼び出し
+- UI要素を持たない（nullを返す）クライアントコンポーネント
+- ターミナルIDはlocalStorageに永続化される
 
 #### セッション情報の拡張
 - デフォルトのセッション情報に加えて、プロバイダーのアクセストークンを保存

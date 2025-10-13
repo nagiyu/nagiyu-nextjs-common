@@ -46,6 +46,7 @@ export default function RootLayout({
     <CommonLayout
       title='Next.js Common Sample'
       menuItems={menuItems}
+      enableNotification={true}
     >
       {children}
     </CommonLayout>

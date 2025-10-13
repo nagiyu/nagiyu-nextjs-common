@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationSettingDialog from '@client-common/components/feedback/dialog/NotificationSettingDialog';
 
 export type MenuItemData = {
     title: string;
@@ -13,12 +14,25 @@ export type MenuItemData = {
 
 type LinkMenuProps = {
     menuItems: MenuItemData[];
+    enableNotification?: boolean;
 };
 
-export default function LinkMenu({ menuItems }: LinkMenuProps) {
+export default function LinkMenu({ menuItems, enableNotification = false }: LinkMenuProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [dialogOpen, setDialogOpen] = useState<number | null>(null);
+    const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
     const open = Boolean(anchorEl);
+
+    // Add notification settings to menu items if enabled
+    const allMenuItems = [...menuItems];
+    if (enableNotification) {
+        allMenuItems.push({
+            title: 'Notification Settings',
+            dialog: (open, onClose) => (
+                <NotificationSettingDialog open={open} onClose={onClose} />
+            ),
+        });
+    }
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -29,10 +43,12 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
     };
 
     const handleMenuItemClick = (index: number) => {
-        const item = menuItems[index];
+        const item = allMenuItems[index];
+        
         if (item.dialog) {
             setDialogOpen(index);
         }
+        
         handleClose();
     };
 
@@ -57,7 +73,7 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
                 open={open}
                 onClose={handleClose}
             >
-                {menuItems.map((item, index) => (
+                {allMenuItems.map((item, index) => (
                     <MenuItem 
                         onClick={() => handleMenuItemClick(index)} 
                         key={item.url || `dialog-${index}`}
@@ -74,7 +90,7 @@ export default function LinkMenu({ menuItems }: LinkMenuProps) {
                     </MenuItem>
                 ))}
             </Menu>
-            {menuItems.map((item, index) => 
+            {allMenuItems.map((item, index) => 
                 item.dialog && dialogOpen === index ? (
                     <React.Fragment key={`dialog-${index}`}>
                         {item.dialog(true, handleDialogClose)}

@@ -37,6 +37,14 @@ export default function ChatSamplePage() {
             timestamp: new Date(Date.now() - 180000),
             avatarIcon: <SmartToyIcon />,
         },
+        {
+            id: '4',
+            content: '改行のテストです。\nこのメッセージは複数行にわたります。\n\n段落の区切りも表示されます。\n長い行も適切に折り返されます。',
+            sender: 'system',
+            senderName: 'AI Assistant',
+            timestamp: new Date(Date.now() - 120000),
+            avatarIcon: <SmartToyIcon />,
+        },
     ]);
     const [inputText, setInputText] = useState('');
 

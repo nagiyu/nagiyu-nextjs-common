@@ -8,11 +8,11 @@ import AccountContent from '@client-common/components/content/AccountContent';
 import BasicAppBar from '@client-common/components/surfaces/AppBars/BasicAppBar';
 import DirectionStack from '@client-common/components/Layout/Stacks/DirectionStack';
 import LinkMenu, { MenuItemData } from '@client-common/components/navigations/Menus/LinkMenu';
-import NotificationSettingButton from '@client-common/components/inputs/buttons/NotificationSettingButton';
 import SessionUtil from '@client-common/utils/SessionUtil.server';
 import SignInButton from '@client-common/components/inputs/Buttons/SignInButton';
 import SignoutButton from '@client-common/components/inputs/Buttons/SignOutButton';
 import AdSenseUtil from '@client-common/utils/AdSenseUtil.server';
+import TerminalIdInitializer from '@client-common/components/utils/TerminalIdInitializer';
 
 interface CommonLayoutProps {
     title: string;
@@ -61,11 +61,11 @@ export default async function CommonLayout({
     }
 
     const menuContent = (): React.ReactNode => {
-        if (menuItems.length === 0) {
+        if (menuItems.length === 0 && !enableNotification) {
             return null;
         }
 
-        return <LinkMenu menuItems={menuItems} />;
+        return <LinkMenu menuItems={menuItems} enableNotification={enableNotification} />;
     }
 
     // Get AdSense config dynamically if enabled
@@ -87,6 +87,7 @@ export default async function CommonLayout({
                 )}
             </head>
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
+                <TerminalIdInitializer />
                 <BasicAppBar
                     left={
                         <DirectionStack>
@@ -101,7 +102,6 @@ export default async function CommonLayout({
                     right={
                         <DirectionStack>
                             {enableAuthentication && await authenticatedContent()}
-                            {enableNotification && <NotificationSettingButton />}
                             {menuContent()}
                         </DirectionStack>
                     }

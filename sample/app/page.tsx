@@ -17,6 +17,14 @@ export default function Home() {
     {
       label: 'Chat',
       url: '/sample/data/chat',
+    },
+    {
+      label: 'LinkMenu Demo',
+      url: '/sample/linkmenu-demo',
+    },
+    {
+      label: 'Identifier',
+      url: '/sample/identifier',
     }
   ];
 

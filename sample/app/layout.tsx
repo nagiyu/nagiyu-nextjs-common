@@ -26,6 +26,14 @@ const menuItems: MenuItemData[] = [
   {
     title: 'Chat',
     url: '/sample/data/chat',
+  },
+  {
+    title: 'LinkMenu Demo',
+    url: '/sample/linkmenu-demo',
+  },
+  {
+    title: 'Identifier',
+    url: '/sample/identifier',
   }
 ];
 
@@ -38,6 +46,7 @@ export default function RootLayout({
     <CommonLayout
       title='Next.js Common Sample'
       menuItems={menuItems}
+      enableNotification={true}
     >
       {children}
     </CommonLayout>

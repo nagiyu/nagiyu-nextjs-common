@@ -18,6 +18,14 @@ npx create-next-app@latest
 
 ## プロジェクトの設定
 
+### package.config
+
+下記パッケージをインストールする。
+
+```bash
+npm install next-auth
+```
+
 ### tsconfig.json
 
 ```json
@@ -87,6 +95,10 @@ self.addEventListener('notificationclick', function (event) {
 ### public/logo.png
 
 - ロゴを設定する
+
+### app/api
+
+- 必要に応じて API を追加する
 
 ### app/manifest.ts
 

@@ -21,6 +21,10 @@ export default function Home() {
     {
       label: 'LinkMenu Demo',
       url: '/sample/linkmenu-demo',
+    },
+    {
+      label: 'Identifier',
+      url: '/sample/identifier',
     }
   ];
 

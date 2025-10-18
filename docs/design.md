@@ -271,6 +271,34 @@ common/
 - `AdminManagement`: 管理画面の汎用管理コンポーネント（CRUD操作対応）
   - Create、Edit、Delete、Refreshボタンを提供
   - Refreshボタンでキャッシュを使わずにデータを再取得
+  - オプションで`onRefresh`プロパティによりRefreshボタンの動作をカスタマイズ可能
+    - `onRefresh`を指定すると、リフレッシュ前に追加処理を実行できる
+    - `onRefresh`実行後、自動的にデータの再取得（fetchData）が行われる
+  - 使用例:
+    ```tsx
+    // デフォルトの動作（onRefreshを指定しない場合）
+    <AdminManagement
+      fetchData={fetchItems}
+      onCreate={createItem}
+      onUpdate={updateItem}
+      onDelete={deleteItem}
+      // ... other props
+    />
+
+    // カスタムリフレッシュ処理（例: ローディング表示やログ記録を追加）
+    <AdminManagement
+      fetchData={fetchItems}
+      onCreate={createItem}
+      onUpdate={updateItem}
+      onDelete={deleteItem}
+      onRefresh={async () => {
+        console.log('Refreshing data...');
+        // リフレッシュ前の処理（バリデーション、ログ記録など）
+        // この後、自動的に fetchData が呼ばれて items が更新される
+      }}
+      // ... other props
+    />
+    ```
 
 #### Chart/Graph コンポーネント
 - EChartsを使用したグラフコンポーネント群

@@ -28,6 +28,7 @@ interface AdminManagementProps<ItemType extends DataTypeBase, StateType extends 
     onCreate: (item: ItemType) => Promise<ItemType>;
     onUpdate: (item: ItemType) => Promise<ItemType>;
     onDelete: (id: string) => Promise<void>;
+    onRefresh?: () => Promise<void>;
     children: (
         item: ItemType,
         state: StateType,
@@ -50,6 +51,7 @@ export default function AdminManagement<ItemType extends DataTypeBase, StateType
     onCreate,
     onUpdate,
     onDelete,
+    onRefresh,
     children
 }: AdminManagementProps<ItemType, StateType>) {
     const [items, setItems] = useState<(ItemType & AdminManagementTableType)[]>([]);
@@ -106,6 +108,9 @@ export default function AdminManagement<ItemType extends DataTypeBase, StateType
     };
 
     const handleRefresh = async () => {
+        if (onRefresh) {
+            await onRefresh();
+        }
         const data = await fetchData();
         setItems(data.map(itemToTable));
     };

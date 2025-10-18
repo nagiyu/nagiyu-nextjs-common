@@ -9,8 +9,16 @@ export default class APIUtil {
     return NextResponse.json(data);
   }
 
-  public static ReturnSuccessWithObject(data: object) {
-    return NextResponse.json(data);
+  public static ReturnSuccessWithObject(data: object, options?: { noCache?: boolean }) {
+    const response = NextResponse.json(data);
+    
+    if (options?.noCache) {
+      response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      response.headers.set('Pragma', 'no-cache');
+      response.headers.set('Expires', '0');
+    }
+    
+    return response;
   }
 
   public static ReturnBadRequest(message: string) {

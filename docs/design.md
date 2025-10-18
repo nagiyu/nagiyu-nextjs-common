@@ -274,6 +274,32 @@ common/
   - オプションで`onRefresh`プロパティによりRefreshボタンの動作をカスタマイズ可能
     - `onRefresh`を指定すると、デフォルトのリフレッシュ処理を完全に置き換える
     - カスタムハンドラ内でコンポーネントの状態更新が必要な場合は、親コンポーネントで管理すること
+  - 使用例:
+    ```tsx
+    // デフォルトの動作（onRefreshを指定しない場合）
+    <AdminManagement
+      fetchData={fetchItems}
+      onCreate={createItem}
+      onUpdate={updateItem}
+      onDelete={deleteItem}
+      // ... other props
+    />
+
+    // カスタムリフレッシュ処理（例: ローディング表示やログ記録を追加）
+    <AdminManagement
+      fetchData={fetchItems}
+      onCreate={createItem}
+      onUpdate={updateItem}
+      onDelete={deleteItem}
+      onRefresh={async () => {
+        console.log('Refreshing data...');
+        setLoading(true);
+        await refetchData(); // 親コンポーネントで管理する独自のリフレッシュ処理
+        setLoading(false);
+      }}
+      // ... other props
+    />
+    ```
 
 #### Chart/Graph コンポーネント
 - EChartsを使用したグラフコンポーネント群

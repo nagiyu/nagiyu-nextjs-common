@@ -110,10 +110,9 @@ export default function AdminManagement<ItemType extends DataTypeBase, StateType
     const handleRefresh = async () => {
         if (onRefresh) {
             await onRefresh();
-        } else {
-            const data = await fetchData();
-            setItems(data.map(itemToTable));
         }
+        const data = await fetchData();
+        setItems(data.map(itemToTable));
     };
 
     useEffect(() => {

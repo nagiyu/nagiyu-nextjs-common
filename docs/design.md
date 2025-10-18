@@ -272,8 +272,8 @@ common/
   - Create、Edit、Delete、Refreshボタンを提供
   - Refreshボタンでキャッシュを使わずにデータを再取得
   - オプションで`onRefresh`プロパティによりRefreshボタンの動作をカスタマイズ可能
-    - `onRefresh`を指定すると、デフォルトのリフレッシュ処理を完全に置き換える
-    - カスタムハンドラ内でコンポーネントの状態更新が必要な場合は、親コンポーネントで管理すること
+    - `onRefresh`を指定すると、リフレッシュ前に追加処理を実行できる
+    - `onRefresh`実行後、自動的にデータの再取得（fetchData）が行われる
   - 使用例:
     ```tsx
     // デフォルトの動作（onRefreshを指定しない場合）
@@ -293,9 +293,8 @@ common/
       onDelete={deleteItem}
       onRefresh={async () => {
         console.log('Refreshing data...');
-        setLoading(true);
-        await refetchData(); // 親コンポーネントで管理する独自のリフレッシュ処理
-        setLoading(false);
+        // リフレッシュ前の処理（バリデーション、ログ記録など）
+        // この後、自動的に fetchData が呼ばれて items が更新される
       }}
       // ... other props
     />

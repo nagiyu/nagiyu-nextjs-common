@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 
+export interface ReturnSuccessWithObjectOptions {
+  noCache?: boolean;
+}
+
 export default class APIUtil {
   public static ReturnSuccess(data?: object) {
     if (!data) {
@@ -9,7 +13,7 @@ export default class APIUtil {
     return NextResponse.json(data);
   }
 
-  public static ReturnSuccessWithObject(data: object, options?: { noCache?: boolean }) {
+  public static ReturnSuccessWithObject(data: object, options?: ReturnSuccessWithObjectOptions) {
     const response = NextResponse.json(data);
     
     if (options?.noCache) {

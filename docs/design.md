@@ -271,6 +271,7 @@ common/
 - `AdminManagement`: 管理画面の汎用管理コンポーネント（CRUD操作対応）
   - Create、Edit、Delete、Refreshボタンを提供
   - Refreshボタンでキャッシュを使わずにデータを再取得
+  - オプションで`onRefresh`プロパティによりRefreshボタンの動作をカスタマイズ可能
 
 #### Chart/Graph コンポーネント
 - EChartsを使用したグラフコンポーネント群

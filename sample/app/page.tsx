@@ -19,6 +19,10 @@ export default function Home() {
       url: '/sample/data/chat',
     },
     {
+      label: 'Alert',
+      url: '/sample/feedback/alert',
+    },
+    {
       label: 'LinkMenu Demo',
       url: '/sample/linkmenu-demo',
     },

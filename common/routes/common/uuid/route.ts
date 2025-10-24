@@ -7,7 +7,7 @@ export interface UUIDResponse {
 }
 
 export async function GET() {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const result: UUIDResponse = {
       uuid: CommonUtil.generateUUID(),
     };

@@ -9,7 +9,7 @@ import APIUtil from '@client-common/utils/APIUtil';
 import AuthUtil from '@client-common/auth/AuthUtil';
 
 export async function GET() {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const service = new SimpleAuthService();
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
 
@@ -24,7 +24,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
 
     if (!googleUserID) {

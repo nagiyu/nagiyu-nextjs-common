@@ -23,6 +23,8 @@ export default class APIUtil {
     if (options?.authorization) {
       const { authorizationService, feature, requiredLevel } = options.authorization;
 
+      authorizationService.validate(feature, requiredLevel);
+
       const hasPermission = await authorizationService.authorize(
         feature,
         requiredLevel

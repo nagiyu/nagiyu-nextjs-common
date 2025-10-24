@@ -20,7 +20,7 @@ async function handleGoogleOption() {
 }
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ option: string }> }) {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const option = (await params).option;
 
     if (!option) {

@@ -8,7 +8,7 @@ import APIUtil from '@client-common/utils/APIUtil';
 import AuthUtil from '@client-common/auth/AuthUtil';
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
 
     if (!googleUserID) {

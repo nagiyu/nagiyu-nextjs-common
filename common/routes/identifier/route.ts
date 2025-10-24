@@ -9,7 +9,7 @@ export interface IdentifierResponse {
 }
 
 export async function GET() {
-  APIUtil.apiHandler(async () => {
+  return APIUtil.apiHandler(async () => {
     const userId = await IdentifierUtil.getIdentifier();
 
     const result: IdentifierResponse = {

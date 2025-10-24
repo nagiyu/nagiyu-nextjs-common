@@ -9,12 +9,14 @@ export interface IdentifierResponse {
 }
 
 export async function GET() {
-  const userId = await IdentifierUtil.getIdentifier();
-  
-  const result: IdentifierResponse = {
-    identifier: userId,
-    type: userId ? IDENTIFIER_TYPES.USER : IDENTIFIER_TYPES.NONE
-  };
-  
-  return APIUtil.ReturnSuccess(result);
+  return APIUtil.apiHandler(async () => {
+    const userId = await IdentifierUtil.getIdentifier();
+
+    const result: IdentifierResponse = {
+      identifier: userId,
+      type: userId ? IDENTIFIER_TYPES.USER : IDENTIFIER_TYPES.NONE
+    };
+
+    return result;
+  });
 }

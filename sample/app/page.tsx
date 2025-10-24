@@ -2,7 +2,11 @@
 
 import React from 'react';
 
+import FeatureGuard from '@client-common/components/authorization/FeatureGuard';
 import HomePage, { HomePageButton } from '@client-common/pages/HomePage';
+import { PermissionLevel } from '@common/enums/PermissionLevel';
+
+import { SampleFeature } from '@/consts/SampleConst';
 
 export default function Home() {
   const buttons: HomePageButton[] = [
@@ -19,6 +23,10 @@ export default function Home() {
       url: '/sample/data/chat',
     },
     {
+      label: 'Alert',
+      url: '/sample/feedback/alert',
+    },
+    {
       label: 'LinkMenu Demo',
       url: '/sample/linkmenu-demo',
     },
@@ -29,6 +37,11 @@ export default function Home() {
   ];
 
   return (
-    <HomePage buttons={buttons} />
+    <FeatureGuard
+      feature={SampleFeature.HOME}
+      level={PermissionLevel.VIEW}
+    >
+      <HomePage buttons={buttons} />
+    </FeatureGuard>
   );
 }

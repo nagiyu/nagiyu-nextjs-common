@@ -28,6 +28,10 @@ const menuItems: MenuItemData[] = [
     url: '/sample/data/chat',
   },
   {
+    title: 'Alert',
+    url: '/sample/feedback/alert',
+  },
+  {
     title: 'LinkMenu Demo',
     url: '/sample/linkmenu-demo',
   },

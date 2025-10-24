@@ -7,8 +7,11 @@ export interface UUIDResponse {
 }
 
 export async function GET() {
-  const result: UUIDResponse = {
-    uuid: CommonUtil.generateUUID(),
-  };
-  return APIUtil.ReturnSuccess(result);
+  return APIUtil.apiHandler(async () => {
+    const result: UUIDResponse = {
+      uuid: CommonUtil.generateUUID(),
+    };
+
+    return result;
+  }, { noCache: true });
 }

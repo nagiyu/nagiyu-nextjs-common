@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 
 import SimpleAuthService from '@common/services/auth/SimpleAuthService';
+import { BadRequestError, NotFoundError } from '@common/errors';
 
 import AuthUtil from '@client-common/auth/AuthUtil';
 import APIUtil from '@client-common/utils/APIUtil';
@@ -12,24 +13,26 @@ async function handleGoogleOption() {
   const user = await authService.getByGoogleUserId(googleUserID);
 
   if (!user) {
-    return APIUtil.ReturnNotFound('User not found');
+    throw new NotFoundError('User not found');
   }
 
-  return APIUtil.ReturnSuccess(user);
+  return user;
 }
 
 export async function GET(_: NextRequest, { params }: { params: Promise<{ option: string }> }) {
-  const option = (await params).option;
+  return APIUtil.apiHandler(async () => {
+    const option = (await params).option;
 
-  if (!option) {
-    return APIUtil.ReturnBadRequest('Option is required');
-  }
+    if (!option) {
+      throw new BadRequestError('Option is required');
+    }
 
-  switch (option) {
-    case 'google':
-      return handleGoogleOption();
+    switch (option) {
+      case 'google':
+        return handleGoogleOption();
 
-    default:
-      return APIUtil.ReturnBadRequest('Invalid option');
-  }
+      default:
+        throw new BadRequestError('Invalid option');
+    }
+  });
 }

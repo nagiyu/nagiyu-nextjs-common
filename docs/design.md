@@ -194,6 +194,8 @@ common/
 **Alert:**
 - `ErrorAlert`: エラーアラート
 - `WarningAlert`: 警告アラート
+- `SuccessAlert`: 成功アラート
+- `InfoAlert`: 情報アラート
 
 **Skeleton:**
 - `TextSkeleton`: テキスト読み込み中のスケルトン表示

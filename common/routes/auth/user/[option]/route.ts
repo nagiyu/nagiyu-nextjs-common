@@ -4,7 +4,9 @@ import SimpleAuthService from '@common/services/auth/SimpleAuthService';
 import { BadRequestError, NotFoundError } from '@common/errors';
 
 import AuthUtil from '@client-common/auth/AuthUtil';
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
+
+const FEATURE = 'User';
 
 async function handleGoogleOption() {
   const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
@@ -19,7 +21,12 @@ async function handleGoogleOption() {
   return user;
 }
 
-export async function GET(_: NextRequest, { params }: { params: Promise<{ option: string }> }) {
+export async function getHandler(rootFeature: string, _: NextRequest, { params }: { params: Promise<{ option: string }> }) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+  };
+
   return APIUtil.apiHandler(async () => {
     const option = (await params).option;
 
@@ -34,5 +41,5 @@ export async function GET(_: NextRequest, { params }: { params: Promise<{ option
       default:
         throw new BadRequestError('Invalid option');
     }
-  });
+  }, options);
 }

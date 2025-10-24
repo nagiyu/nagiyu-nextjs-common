@@ -1,11 +1,19 @@
 import CommonUtil from '@common/utils/CommonUtil';
 
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
 
-export async function GET() {
+const FEATURE = 'Terminal';
+
+export async function getHandler(rootFeature: string) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+    noCache: true,
+  };
+
   return APIUtil.apiHandler(async () => {
     return {
       terminalId: CommonUtil.generateUUID()
     };
-  });
+  }, options);
 }

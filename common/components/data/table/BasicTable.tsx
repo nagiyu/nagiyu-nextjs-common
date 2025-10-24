@@ -68,8 +68,8 @@ function BasicTable<T>({
 
   return (
     <Paper>
-      <TableContainer>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer style={{ overflowX: 'auto' }}>
+        <Table stickyHeader aria-label="sticky table" style={{ whiteSpace: 'nowrap' }}>
           <TableHead>
             <TableRow>
               {columns.map((column) => (

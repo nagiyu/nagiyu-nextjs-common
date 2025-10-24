@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { AuthorizationServiceBase } from '@common/services/authorization/AuthorizationServiceBase';
 import { PermissionLevel } from '@common/enums/PermissionLevel';
 
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
 
 /**
  * 権限チェックAPIのリクエスト型
@@ -24,14 +24,22 @@ export interface CheckPermissionResponseType {
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+const FEATURE = 'CheckPermission';
+
 /**
  * 権限チェックAPI
  * クライアントから指定された機能と権限レベルに対する権限を確認
  */
-export async function POST<Feature extends string = string>(
+export async function postHandler<Feature extends string = string>(
+  rootFeature: string,
   request: NextRequest,
   authorizationService: AuthorizationServiceBase<Feature>
 ) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+  };
+
   return APIUtil.apiHandler(async () => {
     const body: CheckPermissionRequestType<Feature> = await request.json();
     const { feature, level } = body;
@@ -48,5 +56,5 @@ export async function POST<Feature extends string = string>(
     const response: CheckPermissionResponseType = { hasPermission };
 
     return response;
-  });
+  }, options);
 }

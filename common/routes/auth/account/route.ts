@@ -5,10 +5,17 @@ import SimpleAuthService from '@common/services/auth/SimpleAuthService';
 import { AuthDataType } from '@common/interfaces/data/AuthDataType';
 import { UnauthorizedError } from '@common/errors';
 
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
 import AuthUtil from '@client-common/auth/AuthUtil';
 
-export async function GET() {
+const FEATURE = 'Account';
+
+export async function getHandler(rootFeature: string) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+  };
+
   return APIUtil.apiHandler(async () => {
     const service = new SimpleAuthService();
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
@@ -20,10 +27,15 @@ export async function GET() {
     const user = await service.getByGoogleUserId(googleUserID);
 
     return user ? [user] : [];
-  });
+  }, options);
 }
 
-export async function POST(request: NextRequest) {
+export async function postHandler(rootFeature: string, request: NextRequest) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+  };
+
   return APIUtil.apiHandler(async () => {
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
 
@@ -46,5 +58,5 @@ export async function POST(request: NextRequest) {
     await service.create(requestData);
 
     return requestData;
-  });
+  }, options);
 }

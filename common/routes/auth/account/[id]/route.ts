@@ -4,10 +4,17 @@ import SimpleAuthService from '@common/services/auth/SimpleAuthService';
 import { AuthDataType } from '@common/interfaces/data/AuthDataType';
 import { UnauthorizedError } from '@common/errors';
 
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
 import AuthUtil from '@client-common/auth/AuthUtil';
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+const FEATURE = 'Account';
+
+export async function putHandler(rootFeature: string, request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+  };
+
   return APIUtil.apiHandler(async () => {
     const googleUserID = await AuthUtil.getGoogleUserIdFromSession();
 
@@ -30,7 +37,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     await service.update(requestData);
 
     return requestData;
-  });
+  }, options);
 }
 
 // export async function DELETE(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {

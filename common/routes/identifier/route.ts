@@ -1,4 +1,4 @@
-import APIUtil from '@client-common/utils/APIUtil';
+import APIUtil, { APIResponseOptions } from '@client-common/utils/APIUtil';
 import IdentifierUtil from '@client-common/utils/IdentifierUtil.server';
 import { IdentifierType } from '@client-common/types/IdentifierType';
 import { IDENTIFIER_TYPES } from '@client-common/consts/IdentifierTypeConst';
@@ -8,7 +8,15 @@ export interface IdentifierResponse {
   type: IdentifierType;
 }
 
-export async function GET() {
+const FEATURE = 'Identifier';
+
+export async function getHandler(rootFeature: string) {
+  const options: APIResponseOptions = {
+    rootFeature,
+    feature: FEATURE,
+    noCache: true,
+  };
+
   return APIUtil.apiHandler(async () => {
     const userId = await IdentifierUtil.getIdentifier();
 
@@ -18,5 +26,5 @@ export async function GET() {
     };
 
     return result;
-  });
+  }, options);
 }

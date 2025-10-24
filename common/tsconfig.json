@@ -6,7 +6,7 @@
     "jsx": "preserve",
     "paths": {
       "@common/*": [
-        "../../common/*"
+        "../typescript-common/common/*"
       ],
       "@client-common/*": [
         "./*"

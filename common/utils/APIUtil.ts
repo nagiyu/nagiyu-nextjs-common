@@ -1,32 +1,34 @@
 import { NextResponse } from 'next/server';
 
+import ErrorUtil from '@common/utils/ErrorUtil';
 import { BadRequestError, UnauthorizedError, NotFoundError } from '@common/errors';
 import { AuthorizationServiceBase } from '@common/services/authorization/AuthorizationServiceBase';
 import { PermissionLevel } from '@common/enums/PermissionLevel';
 
 export interface APIResponseOptions<Feature extends string = string> {
+  rootFeature: string;
+  feature: Feature;
   noCache?: boolean;
   authorization?: AuthorizationOptions<Feature>;
 }
 
 export interface AuthorizationOptions<Feature extends string = string> {
   authorizationService: AuthorizationServiceBase<Feature>;
-  feature: Feature;
   requiredLevel: PermissionLevel;
 }
 
 export default class APIUtil {
   public static async apiHandler<Feature extends string = string>(
     handler: () => Promise<object>,
-    options?: APIResponseOptions<Feature>,
+    options: APIResponseOptions<Feature>,
   ) {
     if (options?.authorization) {
-      const { authorizationService, feature, requiredLevel } = options.authorization;
+      const { authorizationService, requiredLevel } = options.authorization;
 
-      authorizationService.validate(feature, requiredLevel);
+      authorizationService.validate(options.feature, requiredLevel);
 
       const hasPermission = await authorizationService.authorize(
-        feature,
+        options.feature,
         requiredLevel
       );
 
@@ -42,22 +44,22 @@ export default class APIUtil {
       response = NextResponse.json(result);
     } catch (error) {
       if (error instanceof BadRequestError) {
+        ErrorUtil.logError(options.rootFeature, options.feature, error);
         response = NextResponse.json({ error: error.message ?? 'Bad Request' }, { status: 400 });
-      }
-
-      if (error instanceof UnauthorizedError) {
+      } else if (error instanceof UnauthorizedError) {
+        ErrorUtil.logError(options.rootFeature, options.feature, error);
         response = NextResponse.json({ error: error.message ?? 'Unauthorized' }, { status: 401 });
-      }
-
-      if (error instanceof NotFoundError) {
+      } else if (error instanceof NotFoundError) {
+        ErrorUtil.logError(options.rootFeature, options.feature, error);
         response = NextResponse.json({ error: error.message ?? 'Not Found' }, { status: 404 });
-      }
-
-      if (error instanceof Error) {
+      } else if (error instanceof Error) {
+        ErrorUtil.logError(options.rootFeature, options.feature, error);
         response = NextResponse.json({ error: error.message ?? 'Internal Server Error' }, { status: 500 });
+      } else {
+        const message = String(error);
+        ErrorUtil.logError(options.rootFeature, options.feature, new Error(String(message)));
+        response = NextResponse.json({ error: message ?? 'Internal Server Error' }, { status: 500 });
       }
-
-      response = NextResponse.json({ error: String(error) }, { status: 500 });
     }
 
     if (options?.noCache) {

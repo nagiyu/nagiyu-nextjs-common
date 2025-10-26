@@ -1,5 +1,11 @@
-import ErrorUtil from '@common/utils/ErrorUtil'
 import { useEffect, useState } from 'react'
+
+import { SubscriptionDataType } from '@common/interfaces/data/SubscriptionDataType';
+
+import TerminalUtil from '@client-common/utils/TerminalUtil.client'
+import { SubscriptionFetchService } from '@client-common/services/SubscriptionFetchService.client';
+
+const subscriptionService = new SubscriptionFetchService();
 
 export function useNotificationManager() {
   const [isSupported, setIsSupported] = useState(false)
@@ -21,12 +27,13 @@ export function useNotificationManager() {
         updateViaCache: 'none',
       })
       const sub = await registration.pushManager.getSubscription()
+
       setSubscription(sub)
-      // ServiceWorkerの購読情報でlocalStorageを上書き
+
       if (sub) {
-        localStorage.setItem('pushSubscription', JSON.stringify(sub))
+        updateSubscription(sub);
       } else {
-        localStorage.removeItem('pushSubscription')
+        deleteSubscription();
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -64,7 +71,7 @@ export function useNotificationManager() {
 
       const response = await fetch('/api/notification');
       if (!response.ok) {
-        ErrorUtil.throwError('Failed to fetch VAPID public key');
+        throw new Error('Failed to fetch VAPID public key');
       }
 
       const { VAPID_PUBLIC_KEY } = await response.json();
@@ -74,9 +81,7 @@ export function useNotificationManager() {
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       })
       setSubscription(sub)
-
-      // LocalStorageに購読情報を保存
-      localStorage.setItem('pushSubscription', JSON.stringify(sub))
+      updateSubscription(sub);
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)
@@ -90,7 +95,7 @@ export function useNotificationManager() {
       if (!subscription) return
       await subscription.unsubscribe()
       setSubscription(null)
-      localStorage.removeItem('pushSubscription')
+      deleteSubscription();
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)
@@ -128,6 +133,46 @@ export function useNotificationManager() {
         setError(error.message)
       }
       return false
+    }
+  }
+
+  const updateSubscription = async (sub: PushSubscription) => {
+    const terminalId = await TerminalUtil.getTerminalId()
+    const currentSub = await subscriptionService.getByTerminalId(terminalId);
+
+    if (currentSub) {
+      const updatedSub: SubscriptionDataType = {
+        ...currentSub,
+        subscription: {
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: sub.toJSON().keys.p256dh,
+            auth: sub.toJSON().keys.auth,
+          }
+        }
+      };
+      await subscriptionService.update(currentSub.id, updatedSub);
+    } else {
+      const createdSub: Partial<SubscriptionDataType> = {
+        terminalId,
+        subscription: {
+          endpoint: sub.endpoint,
+          keys: {
+            p256dh: sub.toJSON().keys.p256dh,
+            auth: sub.toJSON().keys.auth,
+          }
+        }
+      };
+      await subscriptionService.create(createdSub);
+    }
+  }
+
+  const deleteSubscription = async () => {
+    const terminalId = await TerminalUtil.getTerminalId()
+    const currentSub = await subscriptionService.getByTerminalId(terminalId);
+
+    if (currentSub) {
+      await subscriptionService.delete(currentSub.id);
     }
   }
 

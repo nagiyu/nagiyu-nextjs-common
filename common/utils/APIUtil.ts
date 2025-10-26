@@ -19,7 +19,7 @@ export interface AuthorizationOptions<Feature extends string = string> {
 
 export default class APIUtil {
   public static async apiHandler<Feature extends string = string>(
-    handler: () => Promise<object>,
+    handler: () => Promise<any>,
     options: APIResponseOptions<Feature>,
   ) {
     if (options?.authorization) {

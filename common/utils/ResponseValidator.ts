@@ -1,20 +1,18 @@
-import ErrorUtil from '@common/utils/ErrorUtil';
-
 export default class ResponseValidator {
   public static ValidateResponse(response: Response): void {
     switch (response.status) {
       case 200:
         break;
       case 400:
-        ErrorUtil.throwError("Bad Request");
+        throw new Error('Fetch Error: Bad Request');
       case 401:
-        ErrorUtil.throwError("Unauthorized");
+        throw new Error('Fetch Error: Unauthorized');
       case 404:
-        ErrorUtil.throwError("Not Found");
+        throw new Error('Fetch Error: Not Found');
       case 500:
-        ErrorUtil.throwError("Internal Server Error");
+        throw new Error('Fetch Error: Internal Server Error');
       default:
-        ErrorUtil.throwError("Unknown Error");
+        throw new Error('Fetch Error: Unknown Error');
     }
   }
 }

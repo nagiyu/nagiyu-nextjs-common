@@ -3,7 +3,7 @@ import { SubscriptionDataType } from '@common/interfaces/data/SubscriptionDataTy
 import ResponseValidator from '@client-common/utils/ResponseValidator';
 
 export class SubscriptionFetchService {
-  public async getByTerminalId(terminalId: string): Promise<SubscriptionDataType> {
+  public async getByTerminalId(terminalId: string): Promise<SubscriptionDataType | null> {
     const response = await fetch(`/api/subscription?terminalId=${terminalId}`, {
       method: 'GET',
       cache: 'no-store',

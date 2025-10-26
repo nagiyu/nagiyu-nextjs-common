@@ -6,7 +6,12 @@ export class SubscriptionFetchService {
   public async getByTerminalId(terminalId: string): Promise<SubscriptionDataType> {
     const response = await fetch(`/api/subscription?terminalId=${terminalId}`, {
       method: 'GET',
+      cache: 'no-store',
     });
+
+    if (response.status === 404) {
+      return null;
+    }
 
     ResponseValidator.ValidateResponse(response);
 
@@ -20,6 +25,7 @@ export class SubscriptionFetchService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
 
     ResponseValidator.ValidateResponse(response);
@@ -34,6 +40,7 @@ export class SubscriptionFetchService {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
 
     ResponseValidator.ValidateResponse(response);
@@ -44,6 +51,7 @@ export class SubscriptionFetchService {
   public async delete(id: string): Promise<void> {
     const response = await fetch(`/api/subscription?id=${id}`, {
       method: 'DELETE',
+      cache: 'no-store',
     });
 
     ResponseValidator.ValidateResponse(response);

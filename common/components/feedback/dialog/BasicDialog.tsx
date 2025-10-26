@@ -31,6 +31,11 @@ export interface BasicDialogProps {
    * If true, clicking outside the dialog will not close it.
    */
   disableBackdropClick?: boolean;
+
+  /**
+   * Props to pass to the Dialog's Paper component.
+   */
+  paperProps?: DialogProps['PaperProps'];
 };
 
 export default function BasicDialog({
@@ -43,6 +48,7 @@ export default function BasicDialog({
   closeText = 'Cancel',
   disableClose = false,
   disableBackdropClick = false,
+  paperProps,
 }: BasicDialogProps) {
   const handleClose: DialogProps['onClose'] = (_, reason) => {
     if (!disableBackdropClick) {
@@ -59,7 +65,7 @@ export default function BasicDialog({
   return (
     <LoadingContent>
       {(loading, runWithLoading) => (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="basic-dialog-title">
+        <Dialog open={open} onClose={handleClose} aria-labelledby="basic-dialog-title" PaperProps={paperProps}>
           <DialogTitle id="basic-dialog-title">{title}</DialogTitle>
           <DialogContent dividers>{children(loading, runWithLoading)}</DialogContent>
           <DialogActions>

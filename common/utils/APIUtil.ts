@@ -19,7 +19,7 @@ export interface AuthorizationOptions<Feature extends string = string> {
 
 export default class APIUtil {
   public static async apiHandler<Feature extends string = string>(
-    handler: () => Promise<object>,
+    handler: () => Promise<any>,
     options: APIResponseOptions<Feature>,
   ) {
     if (options?.authorization) {
@@ -41,16 +41,21 @@ export default class APIUtil {
 
     try {
       const result = await handler();
-      response = NextResponse.json(result);
+
+      if (result === undefined || result === null) {
+        response = new NextResponse(null);
+      } else {
+        response = NextResponse.json(result);
+      }
     } catch (error) {
       if (error instanceof BadRequestError) {
         ErrorUtil.logError(options.rootFeature, options.feature, error);
         response = NextResponse.json({ error: error.message ?? 'Bad Request' }, { status: 400 });
       } else if (error instanceof UnauthorizedError) {
-        ErrorUtil.logError(options.rootFeature, options.feature, error);
+        // Unauthorized はログに記録しない
         response = NextResponse.json({ error: error.message ?? 'Unauthorized' }, { status: 401 });
       } else if (error instanceof NotFoundError) {
-        ErrorUtil.logError(options.rootFeature, options.feature, error);
+        // Not Found はログに記録しない
         response = NextResponse.json({ error: error.message ?? 'Not Found' }, { status: 404 });
       } else if (error instanceof Error) {
         ErrorUtil.logError(options.rootFeature, options.feature, error);

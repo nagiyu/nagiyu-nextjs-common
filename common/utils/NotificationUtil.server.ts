@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import webpush from 'web-push';
 
 import SecretsManagerUtil from '@common/aws/SecretsManagerUtil';
-
-import APIUtil from '@client-common/utils/APIUtil';
+import { BadRequestError } from '@common/errors';
 
 export interface PayloadType {
   title: string;
@@ -16,7 +15,7 @@ export default class NotificationUtil {
   public static async sendNotification(subscription: any, payload: PayloadType): Promise<NextResponse> {
     try {
       if (!subscription) {
-        return APIUtil.ReturnBadRequest('No subscription provided');
+        throw new BadRequestError('No subscription provided');
       }
 
       const VAPID_PUBLIC_KEY = await SecretsManagerUtil.getSecretValue(process.env.PROJECT_SECRET!, 'VAPID_PUBLIC_KEY');
@@ -27,10 +26,10 @@ export default class NotificationUtil {
 
       await webpush.sendNotification(subscription, JSON.stringify(payload));
 
-      return APIUtil.ReturnSuccess();
-    } catch (error: unknown) {
+      return new NextResponse(null);
+    } catch (error) {
       console.error(error);
-      return APIUtil.ReturnInternalServerError({ error: JSON.stringify(error) });
+      throw error;
     }
   }
 }

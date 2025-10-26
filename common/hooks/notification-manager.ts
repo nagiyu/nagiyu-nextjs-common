@@ -146,8 +146,8 @@ export function useNotificationManager() {
         subscription: {
           endpoint: sub.endpoint,
           keys: {
-            p256dh: sub.toJSON().keys.p256dh,
-            auth: sub.toJSON().keys.auth,
+            p256dh: getP256dhKey(sub),
+            auth: getAuth(sub),
           }
         }
       };
@@ -158,8 +158,8 @@ export function useNotificationManager() {
         subscription: {
           endpoint: sub.endpoint,
           keys: {
-            p256dh: sub.toJSON().keys.p256dh,
-            auth: sub.toJSON().keys.auth,
+            p256dh: getP256dhKey(sub),
+            auth: getAuth(sub),
           }
         }
       };
@@ -174,6 +174,26 @@ export function useNotificationManager() {
     if (currentSub) {
       await subscriptionService.delete(currentSub.id);
     }
+  }
+
+  const getP256dhKey = (sub: PushSubscription): string => {
+    const subJson = sub.toJSON();
+
+    if (subJson && subJson.keys && subJson.keys.p256dh) {
+      return subJson.keys.p256dh;
+    }
+
+    return '';
+  }
+
+  const getAuth = (sub: PushSubscription): string => {
+    const subJson = sub.toJSON();
+
+    if (subJson && subJson.keys && subJson.keys.auth) {
+      return subJson.keys.auth;
+    }
+
+    return '';
   }
 
   return {
